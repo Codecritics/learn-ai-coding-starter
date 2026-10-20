@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "model": "opencode/deepseek-v4.1-flash-free",
   "permissions": [
     {
       "action": "shell",
@@ -7,4 +8,27 @@
       "effect": "allow",
     },
   ],
+  "providers": {
+    "openai": {
+      "models": {
+        "gpt-5": {
+          "variants": [
+            {
+              "id": "poindexter",
+              "settings": {
+                "reasoningEffort": "high",
+                "textVerbosity": "high",
+              },
+            },
+            {
+              "id": "grug",
+              "settings": {
+                "reasoningEffort": "low",
+              },
+            },
+          ],
+        },
+      },
+    },
+  }
 }
