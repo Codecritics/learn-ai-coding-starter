@@ -18,9 +18,22 @@ class RunResult:
     exit_code: int
 
 
-def run_program(source: str, out: TextIO) -> SlopError | None:
+def _ensure_recursion_limit() -> None:
     if sys.getrecursionlimit() < PYTHON_RECURSION_LIMIT:
         sys.setrecursionlimit(PYTHON_RECURSION_LIMIT)
+
+
+def check_program(source: str) -> SlopError | None:
+    _ensure_recursion_limit()
+    try:
+        parse(tokenize(source))
+    except SlopError as error:
+        return error
+    return None
+
+
+def run_program(source: str, out: TextIO) -> SlopError | None:
+    _ensure_recursion_limit()
     try:
         tokens = tokenize(source)
         program = parse(tokens)
