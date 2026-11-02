@@ -90,3 +90,12 @@ def test_lexical_errors(source: str, line: int, message: str):
     assert info.value.line == line
     assert info.value.message == message
     assert str(info.value) == f"SlopLang lexical error at line {line}: {message}"
+
+
+def test_line_numbers_after_comments():
+    """Regression test: line numbers should be correct after comments with newlines."""
+    source = "slop x = 1✨\n— this is a comment\nslop y = 2✨\n@"
+    with pytest.raises(LexicalError) as info:
+        tokenize(source)
+    assert info.value.line == 4
+    assert info.value.message == "unexpected character '@'"

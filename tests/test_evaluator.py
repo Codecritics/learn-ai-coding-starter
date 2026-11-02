@@ -232,3 +232,23 @@ hallucinate(n)✨"""
 def test_empty_program_produces_nothing():
     result = run_source("— nothing but a comment\n")
     assert (result.stdout, result.stderr, result.exit_code) == ("", "", 0)
+
+
+def test_hallucinate_with_no_arguments():
+    assert run("hallucinate()✨") == "\n"
+
+
+def test_hallucinate_with_multiple_arguments():
+    assert run("hallucinate(1, 2, 3)✨") == "1 2 3\n"
+    assert run("hallucinate(\u201chello\u201d, \u201cworld\u201d)✨") == "hello world\n"
+    assert run("hallucinate(✅, ❌, 42)✨") == "✅ ❌ 42\n"
+
+
+def test_hallucinate_with_mixed_types():
+    source = """clanker f() { }
+hallucinate(1, \u201cstr\u201d, ✅, f, f())✨"""
+    assert run(source) == "1 str ✅ <clanker f> nil\n"
+
+
+def test_hallucinate_many_arguments():
+    assert run("hallucinate(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)✨") == "1 2 3 4 5 6 7 8 9 10\n"

@@ -240,9 +240,10 @@ class Interpreter:
             self.call_depth -= 1
 
     def hallucinate(self, arguments: list[Value], line: int) -> Value:
-        if len(arguments) != 1:
-            raise SlopRuntimeError(line, "hallucinate expects 1 argument")
-        self.out.write(stringify(arguments[0]) + "\n")
+        if len(arguments) == 0:
+            self.out.write("\n")
+        else:
+            self.out.write(" ".join(stringify(arg) for arg in arguments) + "\n")
         return None
 
 
