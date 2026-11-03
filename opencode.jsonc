@@ -1,6 +1,18 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "opencode/deepseek-v4.1-flash-free",
+  "compaction": {
+    "automatic": true,
+    "keep": {
+      "tokens": 10000
+    },
+    "buffer": 20000
+  },
+  "watcher": {
+    "ignore": [
+      "logs/**"
+    ]
+  },
   "permissions": [
     {
       "action": "shell",
